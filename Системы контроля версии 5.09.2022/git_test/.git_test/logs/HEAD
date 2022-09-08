@@ -1,0 +1,6 @@
+0000000000000000000000000000000000000000 2ecb2876b8831be1adca862e5ab55766d84ae988 Vladyslav Karlinskyi <vladyslav.karlinskyi@gmail.com> 1662378556 +0300	commit (initial): подкючение нужных библиотек, создание главной функции
+2ecb2876b8831be1adca862e5ab55766d84ae988 8b6a301c12da868b1abd7755939e73b093ddffdd Vladyslav Karlinskyi <vladyslav.karlinskyi@gmail.com> 1662378626 +0300	commit: использование пространства имен std
+8b6a301c12da868b1abd7755939e73b093ddffdd bd0ce37bbd2adad466212ef55f5d2f5a1c8dc226 Vladyslav Karlinskyi <vladyslav.karlinskyi@gmail.com> 1662378696 +0300	commit: создание класса Point
+bd0ce37bbd2adad466212ef55f5d2f5a1c8dc226 c55a21776e2300b8bb807d5c50197cb2ea34f755 Vladyslav Karlinskyi <vladyslav.karlinskyi@gmail.com> 1662378742 +0300	commit: Создание полей, конструкторов для класса Point
+c55a21776e2300b8bb807d5c50197cb2ea34f755 893fa716ea8fa65fe45fdababed588ae606bdc9a Vladyslav Karlinskyi <vladyslav.karlinskyi@gmail.com> 1662378781 +0300	commit: Создание и реализация методов для класса Point
+893fa716ea8fa65fe45fdababed588ae606bdc9a 057e11b8b8daf5ebc9fe6bcd10f75d65afef9341 Vladyslav Karlinskyi <vladyslav.karlinskyi@gmail.com> 1662378804 +0300	commit: Применение класса Point
