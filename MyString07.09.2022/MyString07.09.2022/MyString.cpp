@@ -211,3 +211,4 @@ int MyString::GetCount()
 }
 =======
 >>>>>>> 2b3e558cecdec2472a1c854aac710f37175a2567
+	// отлично!
