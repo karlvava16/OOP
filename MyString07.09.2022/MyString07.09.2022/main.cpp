@@ -19,15 +19,12 @@ int main()
 	cout << endl;
 	
 	cout << "|Strings for methods testing|\n";
-<<<<<<< HEAD
 	cout << endl;
 
 	cout << "\t|GetCount (static)|\n";
 	cout << MyString::GetCount() << endl;
 	cout << endl;
 
-=======
->>>>>>> 2b3e558cecdec2472a1c854aac710f37175a2567
 	MyString str1("karl");
 	MyString str2(" vava 16");
 	MyString str3("");
@@ -36,13 +33,10 @@ int main()
 	cout << "String number 3 : " << str3.MyC_Str() << endl;
 	cout << endl;
 
-<<<<<<< HEAD
 	cout << "\t|GetCount (static)|\n";
 	cout << MyString::GetCount() << endl;
 	cout << endl;
 
-=======
->>>>>>> 2b3e558cecdec2472a1c854aac710f37175a2567
 	cout << "\t|Print|\n";
 	str1.Print();
 	cout << endl << endl;
@@ -73,13 +67,10 @@ int main()
 	cout << str4.MyStrCmp(str5) << endl;
 	cout << endl;
 
-<<<<<<< HEAD
 	cout << "\t|GetCount (static)|\n";
 	cout << MyString::GetCount() << endl;
 	cout << endl;
 
-=======
->>>>>>> 2b3e558cecdec2472a1c854aac710f37175a2567
 	cout << "\t|Enter|\n";
 	str3.Enter();
 	str3.Print();
