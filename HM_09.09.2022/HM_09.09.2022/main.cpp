@@ -48,30 +48,39 @@ class Student
 	char* name;
 	const double step;// !!
 	Book book; //!!!
+	static int count;
 public:
 	Student():step(0), book(nullptr, 0) 
 	{
+		count++;
 		name = new char[1];
 		name[0] = '\0';
 	}
 	Student(const char* n, double st, const char* bookName, int bookPages);// использовать инициализаторы!!!
 	~Student();
 	void Print();
+	static int GetCount();
 
 };
 
+int Student::count = 0;
+
+int Student::GetCount()
+{
+	return count;
+}
+
 Student::Student(const char* n, double st, const char* bookName, int bookPages) : step(st), book(bookName, bookPages)
 {
+	count++;
 	name = new char[strlen(n) + 1];
 	strcpy_s(name, strlen(n) + 1, n);
 }
 
 Student::~Student()
 {
-	if (name != nullptr)
-	{
-		delete[]name;
-	}
+	count--;
+	delete[]name;
 }
 
 void Student::Print()
@@ -86,11 +95,39 @@ void Student::Print()
 // показать использование объектом в функции main
 int main()
 {
+	cout << "Count : " << Student::GetCount() << endl << endl;
+
 	Student st;
 	st.Print();
 	cout << endl;
 
+	cout << "Count : " << Student::GetCount() << endl << endl;
+
+
 	Student st2("Vladyslav Karlinskyi", 2123.23, "OOP by using c++", 256);
 	st2.Print();
+	cout << endl;
+
+	cout << "Count : " << Student::GetCount() << endl << endl;
+
+
 }
+
+/*Result*/
+
+//Count: 0
+//
+//Student name :
+//Step: 0
+//| BOOK | Name :
+//Pages : 0
+//
+//Count : 1
+//
+//Student name : Vladyslav Karlinskyi
+//Step : 2123.23
+//| BOOK | Name : OOP by using c++
+//Pages : 256
+//
+//Count : 2
 
