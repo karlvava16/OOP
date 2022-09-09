@@ -34,7 +34,6 @@ MyString::MyString(const char* str)
 // destructor
 MyString::~MyString()
 {
-<<<<<<< HEAD
 	count--;
 	delete[] str;
 }
@@ -189,12 +188,9 @@ const char* MyString::MyC_Str()
 {
 	return str;
 }
-<<<<<<< HEAD
 
 int MyString::GetCount()
 {
 	return count;
 }
-=======
->>>>>>> 2b3e558cecdec2472a1c854aac710f37175a2567
 	// отлично!
