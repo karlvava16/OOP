@@ -1,17 +1,11 @@
 #include "MyString.h"
 
-<<<<<<< HEAD
 int MyString::count = 0;
 
 // default constructor
 MyString::MyString()
 {
 	count++;
-=======
-// default constructor
-MyString::MyString()
-{
->>>>>>> 2b3e558cecdec2472a1c854aac710f37175a2567
 	str = new char[80];
 	str[0] = '\0';
 	length = 0;
@@ -20,10 +14,7 @@ MyString::MyString()
 // get a param of string length
 MyString::MyString(int length)
 {
-<<<<<<< HEAD
 	count++;
-=======
->>>>>>> 2b3e558cecdec2472a1c854aac710f37175a2567
 	this->length = length;
 	str = new char[length + 1];
 	str[0] = '\0';
@@ -32,10 +23,7 @@ MyString::MyString(int length)
 // get string to write
 MyString::MyString(const char* str)
 {
-<<<<<<< HEAD
 	count++;
-=======
->>>>>>> 2b3e558cecdec2472a1c854aac710f37175a2567
 	length = strlen(str);
 	this->str = new char[length + 1];
 	for (int i = 0; i < length; i++)
@@ -48,8 +36,6 @@ MyString::~MyString()
 {
 <<<<<<< HEAD
 	count--;
-=======
->>>>>>> 2b3e558cecdec2472a1c854aac710f37175a2567
 	delete[] str;
 }
 
