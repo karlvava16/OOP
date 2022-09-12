@@ -55,3 +55,18 @@ int main()
 	
 
 }
+
+
+//		RESULT
+
+/*
+|P1|
+Name : Vladyslav
+Surname : Karlinskyi
+Age : 18
+
+|P2|
+Name : Vladyslav
+Surname : Karlinskyi
+Age : 18
+*/
