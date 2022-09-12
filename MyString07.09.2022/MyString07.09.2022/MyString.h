@@ -13,6 +13,7 @@ public:
 	MyString(); // default constructor
 	MyString(int length); // get a param of string length
 	MyString(const char* str); // get string to write
+	MyString(const MyString& obj); // copy constructor  // last added code
 	~MyString(); // destructor
 
 	void Enter(); // input string by using keyboard

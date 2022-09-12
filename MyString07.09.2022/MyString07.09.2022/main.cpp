@@ -16,6 +16,11 @@ int main()
 	MyString con3("test");
 	cout << "Con3 : " << con3.MyC_Str() << endl;
 	cout << "Len : " << con3.MyStrLen() << endl;
+
+	cout << "\t|Copy constructors|\n";			// last added code
+	MyString con4 = con3;
+	cout << "Con4 : " << con4.MyC_Str() << endl;
+	cout << "Len : " << con4.MyStrLen() << endl;
 	cout << endl;
 	
 	cout << "|Strings for methods testing|\n";

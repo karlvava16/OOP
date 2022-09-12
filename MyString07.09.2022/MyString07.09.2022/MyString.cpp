@@ -31,6 +31,17 @@ MyString::MyString(const char* str)
 	this->str[length] = '\0';
 }
 
+// copy constructor
+MyString::MyString(const MyString& obj)				// last added code
+{
+	count++;
+	length = obj.length;
+	str = new char[length + 1];
+	for (int i = 0; i < length; i++)
+		str[i] = obj.str[i];
+	str[length] = '\0';
+}
+
 // destructor
 MyString::~MyString()
 {
