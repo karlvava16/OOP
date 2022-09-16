@@ -195,7 +195,7 @@ bool Date::operator>=(const Date& obj) const
 // Date + int
 Date Date::operator+(int days) const
 {
-    Date result;
+    Date result(*this);
     result.day += days;
     result.Check();
     return result;
@@ -204,7 +204,7 @@ Date Date::operator+(int days) const
 // Date - int
 Date Date::operator-(int days) const
 {
-    Date result;
+    Date result(*this);
     result.day -= days;
     result.Check();
     return result;
