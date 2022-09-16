@@ -67,7 +67,7 @@ void Date::Check()
 }
 
 // default
-Date::Date() : day(1), month(1), year(1970) {}
+Date::Date() : day(1), month(1), year(1) {}
 
 // day
 Date::Date(int d) : Date()
