@@ -32,7 +32,7 @@ MyString::MyString(const char* str)
 }
 
 // copy constructor
-MyString::MyString(const MyString& obj)				// last added code
+MyString::MyString(const MyString& obj)
 {
 	count++;
 	length = obj.length;
@@ -49,6 +49,55 @@ MyString::~MyString()
 	delete[] str;
 }
 
+													// last added code
+// assignment
+MyString& MyString::operator=(const MyString& obj)
+{
+	if(this == &obj)
+		return *this;
+
+	delete[]str;
+
+	length = obj.length;
+	str = new char[length + 1];
+	for (int i = 0; i < length; i++)
+		str[i] = obj.str[i];
+	str[length] = '\0';
+
+	return *this;
+}
+
+													// last added code
+// output string by using cout
+void MyString::operator()() const
+{
+	std::cout << str << std::endl;
+}
+
+													// last added code
+// return char by index
+char MyString::operator[](int index) const
+{
+	if (index >= 0 && index < length)
+		return str[index];
+	else
+		return '\0';
+}
+
+													// last added code
+// return str length
+MyString::operator int() const
+{
+	return length;
+}
+
+													// last added code
+// return string
+MyString::operator const char* () const
+{
+	return str;
+}
+
 // input string by using keyboard
 void MyString::Enter()
 {
@@ -61,12 +110,6 @@ void MyString::Enter()
 	for (int i = 0; i < length; i++)
 		str[i] = buffer[i];
 	str[length] = '\0';
-}
-
-// output string by using cout
-void MyString::Print()
-{
-	std::cout << str;
 }
 
 // copy string
@@ -104,7 +147,7 @@ bool MyString::MyStrStr(const char* str)
 }
 
 // search for character in string(character index OR -1)
-int MyString::MyChr(char c)
+int MyString::MyChr(char c) const
 {
 	for (int i = 0; i < length; i++)
 	{
@@ -115,7 +158,7 @@ int MyString::MyChr(char c)
 }
 
 // get string length
-int MyString::MyStrLen()
+int MyString::MyStrLen() const
 {
 	return length;
 }
@@ -195,7 +238,7 @@ int MyString::MyStrCmp(MyString& b)
 }
 
 // get const pointer to char array
-const char* MyString::MyC_Str()
+const char* MyString::MyC_Str() const
 {
 	return str;
 }

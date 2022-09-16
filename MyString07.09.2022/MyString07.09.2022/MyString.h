@@ -13,19 +13,24 @@ public:
 	MyString(); // default constructor
 	MyString(int length); // get a param of string length
 	MyString(const char* str); // get string to write
-	MyString(const MyString& obj); // copy constructor  // last added code
+	MyString(const MyString& obj); // copy constructor
 	~MyString(); // destructor
 
+	MyString& operator=(const MyString& obj); // assignment		// last added code
+	void operator()() const; // output string by using cout				// last added code
+	char operator[](int index) const; // return char by index			// last added code
+	operator int () const; // return str length							// last added code
+	operator const char* () const; // return string						// last added code
+
 	void Enter(); // input string by using keyboard
-	void Print(); // output string by using cout
 
 	void MyStrcpy(MyString& obj); // copy string
 	bool MyStrStr(const char* str); // substring in string
-	int  MyChr(char c); // search for character in string(character index OR -1)
-	int MyStrLen(); // get string length
+	int  MyChr(char c) const; // search for character in string(character index OR -1)
+	int MyStrLen() const; // get string length
 	void MyStrCat(MyString& b); // string concatenation
 	void MyDelChr(char c); // delete character from string 
 	int MyStrCmp(MyString& b); // compare strings
-	const char* MyC_Str(); // get const pointer to char array
+	const char* MyC_Str() const; // get const pointer to char array
 	static int GetCount(); // get number of objects
 };
