@@ -1,13 +1,13 @@
-#pragma once
+п»ї#pragma once
 #include <iostream>
 using namespace std;
 
 template <class T>
 class Matrix
 {
-	T** arr; // двумерный массив(матрица)
-	int row; // строки
-	int column; // столбцы
+	T** arr; // РґРІСѓРјРµСЂРЅС‹Р№ РјР°СЃСЃРёРІ(РјР°С‚СЂРёС†Р°)
+	int row; // СЃС‚СЂРѕРєРё
+	int column; // СЃС‚РѕР»Р±С†С‹
 
 public:
 	Matrix();
