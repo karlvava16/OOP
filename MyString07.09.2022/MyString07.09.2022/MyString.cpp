@@ -76,8 +76,6 @@ MyString::~MyString()
 // move assignment													// last added
 MyString& MyString::operator=(MyString&& obj)
 {
-	if(obj.length == 0)
-		return *this;
 	if (str != nullptr)
 		delete[]str;
 	str = obj.str;
