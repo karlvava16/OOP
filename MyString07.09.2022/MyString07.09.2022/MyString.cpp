@@ -42,6 +42,30 @@ MyString::MyString(const MyString& obj)
 	str[length] = '\0';
 }
 
+// move constructor													// last added
+MyString::MyString(MyString&& obj)
+{
+	count++;
+	str = obj.str;
+	length = obj.length;
+	obj.str = new char[1];
+	obj.str[0] = '\0';
+	obj.length = 0;
+}
+
+// list constructor													// last added
+MyString::MyString(std::initializer_list<char> arr)
+{
+	count++;
+	length = arr.size();
+	str = new char[length + 1];
+	for (int i = 0; i < length; i++)
+	{
+		str[i] = *(arr.begin() + i);
+	}
+	str[length] = '\0';
+}
+
 // destructor
 MyString::~MyString()
 {
@@ -49,11 +73,25 @@ MyString::~MyString()
 	delete[] str;
 }
 
-													// last added code
+// move assignment													// last added
+MyString& MyString::operator=(MyString&& obj)
+{
+	if(obj.length == 0)
+		return *this;
+	if (str != nullptr)
+		delete[]str;
+	str = obj.str;
+	length = obj.length;
+	obj.str = new char[1];
+	obj.str[0] = '\0';
+	obj.length = 0;
+	return *this;
+}
+
 // assignment
 MyString& MyString::operator=(const MyString& obj)
 {
-	if(this == &obj)
+	if (this == &obj)
 		return *this;
 
 	delete[]str;
@@ -67,14 +105,24 @@ MyString& MyString::operator=(const MyString& obj)
 	return *this;
 }
 
-													// last added code
+// assignment
+MyString& MyString::operator=(const char* str)
+{
+	length = strlen(str);
+	delete[]this->str;
+	this->str = new char[length + 1];
+	for (int i = 0; i < length + 1; i++)
+		this->str[i] = str[i];
+	this->str[length] = '\0';
+	return *this;
+}
+
 // output string by using cout
 void MyString::operator()() const
 {
-	std::cout << str << std::endl;
+	std::cout << str;
 }
 
-													// last added code
 // return char by index
 char MyString::operator[](int index) const
 {
@@ -84,14 +132,12 @@ char MyString::operator[](int index) const
 		return '\0';
 }
 
-													// last added code
 // return str length
 MyString::operator int() const
 {
 	return length;
 }
 
-													// last added code
 // return string
 MyString::operator const char* () const
 {
@@ -127,12 +173,12 @@ void MyString::MyStrcpy(MyString& obj)
 bool MyString::MyStrStr(const char* str)
 {
 	bool result = false;
-	if(strlen(str) > length)
+	if (strlen(str) > length)
 		return result;
 	for (int i = 0; i < length; i++)
 	{
 		result = true;
-		for(int j = 0; j < strlen(str); j++)
+		for (int j = 0; j < strlen(str); j++)
 		{
 			if (this->str[j + i] != str[j])
 			{
@@ -164,7 +210,7 @@ int MyString::MyStrLen() const
 }
 
 // string concatenation
-void MyString::MyStrCat(MyString& b)
+void MyString::MyStrCat(const MyString& b)
 {
 	char* temp = new char[length + b.length + 1];
 	for (int i = 0; i < length; i++)
@@ -176,6 +222,24 @@ void MyString::MyStrCat(MyString& b)
 		temp[i + length] = b.str[i];
 	}
 	length += b.length;
+	temp[length] = '\0';
+	delete[] str;
+	str = temp;
+}
+
+// string concatenation
+void MyString::MyStrCat(const char* b)
+{
+	char* temp = new char[length + strlen(b) + 1];
+	for (int i = 0; i < length; i++)
+	{
+		temp[i] = str[i];
+	}
+	for (int i = 0; i < strlen(b); i++)
+	{
+		temp[i + length] = b[i];
+	}
+	length += strlen(b);
 	temp[length] = '\0';
 	delete[] str;
 	str = temp;
@@ -209,7 +273,7 @@ void MyString::MyDelChr(char c)
 }
 
 // compare strings
-int MyString::MyStrCmp(MyString& b)
+int MyString::MyStrCmp(const MyString& b) const
 {
 	char* str1 = str;
 	char* str2 = b.str;
@@ -247,4 +311,14 @@ int MyString::GetCount()
 {
 	return count;
 }
-	// отлично!
+// отлично!
+
+
+std::ostream& operator<<(std::ostream& os, const MyString& obj)
+{
+	for (int i = 0; i < obj.length; i++)
+	{
+		os << obj[i];
+	}
+	return os;
+}
