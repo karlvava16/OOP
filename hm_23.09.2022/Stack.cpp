@@ -169,3 +169,9 @@ void main()
 	system("pause");
 }
 
+		//RESULT
+
+/*
+Expression is correct
+Expression is incorrect : ( [ }
+*/
