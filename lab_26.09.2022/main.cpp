@@ -15,19 +15,20 @@ void main()
 	Queue<PrintRequest> QU(25);
 	
 	PrintRequest pr;
-	string enter;
+	const int SIZE = 256;
+	char buffer[SIZE];
 	bool check = true;
 	while (check)
 	{
 		cout << "Enter filename : ";
-		cin >> enter;
-		pr.SetFilename(enter);
+		cin.getline(buffer, SIZE);
+		pr.SetFilename(buffer);
 		cout << "Enter user : ";
-		cin >> enter;
-		pr.SetUser(enter);
+		cin.getline(buffer, SIZE);
+		pr.SetUser(buffer);
 		cout << "Enter priority : ";
-		cin >> enter;
-		pr.SetPriority(atoi(enter.c_str()));
+		cin.getline(buffer, SIZE);
+		pr.SetPriority(atoi(buffer));
 		cout << "Continue? (1 = true, 0 = false) : ";
 		cin >> check;
 		QUP.Add(pr, pr.GetProroity());
@@ -47,11 +48,11 @@ void main()
 	//QUP.Add(third, third.GetProroity());
 	//QUP.Add(forth, forth.GetProroity());
 
-	cout << "\n|QUEUE + PRIORITY|\n";
+	cout << "\n|QUEUE + PRIORITY|\n\n";
 	//показ очереди
 	QUP.Show();
 
-	cout << "\n|PRINTING|\n\n";
+	cout << "\n|PRINTING|\n\n\n";
 	while (!QUP.IsEmpty())
 	{
 		QU.Add(QUP.Extract());
