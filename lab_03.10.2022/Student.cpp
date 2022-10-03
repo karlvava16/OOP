@@ -9,17 +9,17 @@ Student::Student() : Person()
 
 Student::Student(const char* n, int a, const char* acad) : Person(n, a)
 {
+	academy = nullptr;
 	if (acad == nullptr)
 		return;
 	academy = new char[strlen(acad) + 1];
-	strcpy_s(academy, strlen(acad), acad);
+	strcpy_s(academy, strlen(acad) + 1, acad);
 }
 
 Student::Student(const Student& st) : Student(st.name, st.age, st.academy) {}
 
 Student::~Student()
 {
-	Person::~Person();
 	delete[] academy;
 }
 

@@ -12,14 +12,13 @@ Teacher::Teacher(const char* n, int a, const char* s) : Person(n, a)
 	if (s == nullptr)
 		return;
 	school = new char[strlen(s) + 1];
-	strcpy_s(school, strlen(s), s);
+	strcpy_s(school, strlen(s) + 1, s);
 }
 
 Teacher::Teacher(const Teacher& t) : Teacher(t.name, t.age, t.school) {}
 
 Teacher::~Teacher()
 {
-	Person::~Person();
 	delete[] school;
 }
 
