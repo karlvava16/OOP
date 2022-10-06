@@ -4,6 +4,8 @@
 
 using namespace std;
 
+
+
 int main()
 {
 	char choise = '0';
@@ -23,26 +25,28 @@ int main()
 	switch (choise)
 	{
 	case'1':
-		ptr = new Airplane("Boing", 1000, 90);
+		ptr = new Airplane("Boing", 1000, 90, "Vlad");
 		break;
 	case'2':
-		ptr = new Bicycle("Redline");
+		ptr = new Bicycle("Redline", "Vlad");
 		break;
 	case'3':
-		ptr = new Jeep("JEEP", 5, 0.5);
+		ptr = new Jeep("JEEP", 5, 0.5, "Vlad");
 		break;
 	case'4':
-		ptr = new Ship("Yamaha", 2.5, 0.4);
+		ptr = new Ship("Yamaha", 2.5, 0.4, "Vlad");
 		break;
 	case'5':
-		ptr = new Truck("Boing", 30, 0.7);
+		ptr = new Truck("Boing", 30, 0.7, "Vlad");
 		break;
 	}
 
 	ptr->Info();
 	ptr->Move();
 
-	delete[] ptr;
+	cout << endl;
+
+	delete ptr;
 
 	return 0;
 }
@@ -57,11 +61,16 @@ int main()
 3. Jeep
 4. Ship
 5. Truck
-		|AIRPLANE INFO|
+        |AIRPLANE INFO|
 Model: Boing
 Fuel: 1000
 Consumption: 90
+Pilot: Vlad
 
-		|FLY AIRPLANE|
+        |FLY AIRPLANE|
 Fuel left: 910
+
+
+[Airplane destructor]
+[TransportBase destructor]
 */

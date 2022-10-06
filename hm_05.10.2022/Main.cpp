@@ -4,12 +4,6 @@
 
 using namespace std;
 
-
-void PrintMenu()
-{
-	
-}
-
 int main()
 {
 	char choise = '0';
@@ -47,6 +41,9 @@ int main()
 
 	ptr->Info();
 	ptr->Move();
+
+	delete[] ptr;
+
 	return 0;
 }
 
