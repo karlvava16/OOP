@@ -1,9 +1,10 @@
 #pragma once
 #include "TransportBase.h"
-using namespace transport;
 
 namespace airplane
 {
+	using namespace transport;
+
 	class Airplane : public TransportBase
 	{
 		char* pilot;

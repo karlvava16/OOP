@@ -1,9 +1,11 @@
 #pragma once
 #include "TransportBase.h"
-using namespace transport;
 
 namespace bicycle
 {
+	using namespace transport;
+
+
 	class Bicycle : public TransportBase
 	{
 		char* name;

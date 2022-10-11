@@ -8,7 +8,7 @@ int main()
 {
 	char choise = '0';
 
-	TransportBase* ptr = nullptr;
+	transport::TransportBase* ptr = nullptr;
 
 	cout << "\t|Choose transport|\n";
 	cout << "1. Airplane\n";
