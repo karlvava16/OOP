@@ -89,6 +89,9 @@ class AnimalList
 
 			advance(temp, choise);
 
+
+			delete temp._Ptr->_Myval;
+
 			animals.erase(temp);
 
 			cout << "\n[An Animal Deleted]";
