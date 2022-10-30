@@ -1,9 +1,8 @@
-﻿#include "Menu.h"
-#include "FIleExplorer.h"
+﻿#include "FileExplorer.h"
 
 int main()
 {
-	setlocale(0, "");
+	
 
 	//std::cout << "Current root path is: " << fs::current_path().root_path() << '\n';
 	//Menu::ContextMenu();
@@ -12,7 +11,7 @@ int main()
 	/*vector<string> nice = { "C:\\" };
 	fs::directory_iterator g(*nice.begin());*/
 	//Menu::Directories(fs::current_path().root_path(), 0);
-		FIleExplorer fe;
+		FileExplorer fe;
 		fe.Start();
 	
 	return 0;

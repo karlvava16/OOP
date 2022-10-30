@@ -1,8 +1,13 @@
-#include "FIleExplorer.h"
+#include "FileExplorer.h"
 
-void FIleExplorer::Start()
+void FileExplorer::Start()
 {
-	Menu::UpdateMenu(DefPath, current);
+	setlocale(0, "");
+	win::SetConsoleCP(1251);
+	win::SetConsoleOutputCP(1251);
+
+	Menu::UpdateMenu(DefPath, length, current);
+
 	while (true)
 	{
 		try
@@ -15,7 +20,7 @@ void FIleExplorer::Start()
 			else if ((win::GetAsyncKeyState(VK_CONTROL) && win::GetAsyncKeyState(0x52)) ||									//
 				((win::GetAsyncKeyState(VK_LWIN) || win::GetAsyncKeyState(VK_RWIN)) && win::GetAsyncKeyState(VK_UP)))		//
 			{																												//
-				Menu::UpdateMenu(DefPath, current);																			// ResetMenu [Ctrl+R]
+				Menu::UpdateMenu(DefPath, length, current);																	// ResetMenu [Ctrl+R]
 				win::Sleep(100);																							//
 			}																												//
 			else if ((win::GetAsyncKeyState(VK_CONTROL) && win::GetAsyncKeyState(0x50)))									//
@@ -59,29 +64,52 @@ void FIleExplorer::Start()
 	}
 }
 
-void FIleExplorer::Up()
+void FileExplorer::Up()
 {
 	if (current == 0)
 		current = length;
 	current--;
 	Menu::ContextMenu();
-	Menu::Directories(DefPath, current);
-	Menu::Properties(DefPath, current);
-	win::Sleep(200);
+	Menu::Message(L"");
+	Menu::Directories(DefPath, length, current);
+	Menu::Properties(DefPath, length, current);
+	win::Sleep(100);
+	while (win::GetAsyncKeyState(VK_DOWN))
+	{
+		current++;
+		if (current >= length)
+			current = 0;
+		Menu::ContextMenu();
+		Menu::Message(L"");
+		Menu::Directories(DefPath, length, current);
+		Menu::Properties(DefPath, length, current);
+	}
 }
 
-void FIleExplorer::Down()
+void FileExplorer::Down()
 {
 	current++;
 	if (current >= length)
 		current = 0;
+	win::Sleep(100);
 	Menu::ContextMenu();
-	Menu::Directories(DefPath, current);
-	Menu::Properties(DefPath, current);
-	win::Sleep(200);
+	Menu::Message(L"");
+	Menu::Directories(DefPath, length, current);
+	Menu::Properties(DefPath, length, current);
+	while (win::GetAsyncKeyState(VK_DOWN))
+	{
+		current++;
+		if (current >= length)
+			current = 0;
+		Menu::ContextMenu();
+		Menu::Message(L"");
+		Menu::Directories(DefPath, length, current);
+		Menu::Properties(DefPath, length, current);
+	}
+	
 }
 
-void FIleExplorer::Left()
+void FileExplorer::Left()
 {
 	fs::path temp = DefPath.parent_path();
 	if (DefPath != temp)
@@ -90,39 +118,11 @@ void FIleExplorer::Left()
 		length = 0;
 		current = 0;
 		for (auto& i : fs::directory_iterator(DefPath)) length++;
-		Menu::UpdateMenu(DefPath, current);
+		Menu::UpdateMenu(DefPath, length, current);
 	}
 }
 
-void FIleExplorer::Create()
-{
-}
-
-void FIleExplorer::Delete()
-{
-}
-
-void FIleExplorer::Cut()
-{
-}
-
-void FIleExplorer::Copy()
-{
-}
-
-void FIleExplorer::Past()
-{
-}
-
-void FIleExplorer::Search()
-{
-}
-
-void FIleExplorer::Find()
-{
-}
-
-void FIleExplorer::Enter()
+void FileExplorer::Enter()
 {
 	auto p = fs::directory_iterator(DefPath);
 	advance(p, current);
@@ -132,16 +132,68 @@ void FIleExplorer::Enter()
 		length = 0;
 		current = 0;
 		for (auto& i : fs::directory_iterator(DefPath)) length++;
-		Menu::UpdateMenu(DefPath, current);
+		Menu::UpdateMenu(DefPath, length, current);
 	}
 }
 
-void FIleExplorer::Rename()
+void FileExplorer::Create()
 {
-
 }
 
-void FIleExplorer::GoToPath()
+void FileExplorer::Delete()
 {
-	fs::path temp = Menu::EnterPath();
+}
+
+void FileExplorer::Cut()
+{
+}
+
+void FileExplorer::Copy()
+{
+}
+
+void FileExplorer::Past()
+{
+}
+
+void FileExplorer::Search()
+{
+}
+
+void FileExplorer::Find()
+{
+}
+
+
+
+void FileExplorer::Rename()
+{
+	wstring name = Menu::Enter();
+	auto p = fs::directory_iterator(DefPath);
+	advance(p, current);
+	try
+	{
+		if ((*p).path().filename() == name)
+		{
+			Menu::Message(L"SAME NAME");
+			return;
+		}
+		else
+		{
+			fs::rename(DefPath / (*p).path().filename(), DefPath / name);
+			Menu::Message(L"HAS BEEN RENAMED");
+			Menu::Directories(DefPath, length, current);
+			Menu::Properties(DefPath, length, current);
+		}
+		char a = _getch();
+	}
+	catch (fs::filesystem_error msg)
+	{
+		Menu::Message(msg);
+	}
+}
+
+void FileExplorer::GoToPath()
+{
+
 }

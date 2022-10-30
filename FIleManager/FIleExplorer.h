@@ -1,7 +1,4 @@
 #pragma once
-#include <iostream>
-#include <filesystem> // C++17 standard header file name
-#include <algorithm>
 #include "Menu.h"
 
 
@@ -10,18 +7,19 @@ using namespace std;
 
 namespace fs = std::filesystem;
 
-class FIleExplorer
+class FileExplorer
 {
 	fs::path DefPath;
+	fs::path temp;
 	size_t current;
 	size_t length;
 
 public:
-	FIleExplorer() : DefPath(fs::current_path().root_path()), current(0), length(0)
+	FileExplorer() : DefPath(fs::current_path().root_path()), current(0), length(0)
 	{
 		for (auto& i : fs::directory_iterator(DefPath)) length++;
 	}
-	FIleExplorer(const fs::path& dp) : FIleExplorer() 
+	FileExplorer(const fs::path& dp) : FileExplorer() 
 	{
 		if (fs::is_directory(dp))
 		{

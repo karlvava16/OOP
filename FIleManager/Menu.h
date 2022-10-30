@@ -28,16 +28,16 @@ class Menu
 
 	public:
 		static void ContextMenu();
-		static void Directories(const fs::path& path, size_t current);
-		static void Directories(const fs::path& path, size_t current, size_t length);
-		static void Properties(const fs::path& path, size_t current);
+		static void Directories(const fs::path& path);
+		static void Directories(const fs::path& path, size_t length, size_t current);
+		static void Properties(const fs::path& path, size_t length, size_t current);
 		static void CurrentPath(const fs::path& path);
 		static void DiskSpace(const fs::path& path);
-		static void Message();
+		static void Message(wstring msg);
 		static void Message(const fs::filesystem_error msg);
 		static void Search();
-		static void UpdateMenu(const fs::path& path, size_t current);
-		static fs::path EnterPath();
+		static wstring Enter();
+		static void UpdateMenu(const fs::path& path, size_t length, size_t current);
 
 
 		virtual ~Menu() final = 0;
