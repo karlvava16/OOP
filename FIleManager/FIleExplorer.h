@@ -13,6 +13,7 @@ class FileExplorer
 	fs::path temp;
 	size_t current;
 	size_t length;
+	bool CutCopy;
 
 	bool Check()
 	{
@@ -29,7 +30,7 @@ class FileExplorer
 	}
 
 public:
-	FileExplorer() : DefPath(fs::current_path().root_path()), current(0), length(0)
+	FileExplorer() : DefPath(fs::current_path().root_path()), temp(L""), current(0), length(0), CutCopy(true)
 	{
 		for (auto& i : fs::directory_iterator(DefPath)) length++;
 	}
@@ -48,17 +49,16 @@ public:
 
 	void Up();
 	void Down();
-	void Left();
-	void Right();
+	void Back();
+	void Enter();
 
 	void Create();
 	void Delete();
 	void Cut();
 	void Copy();
-	void Past();
+	void Paste();
 	void Rename();
 
-	void Search();
 	void Find();
 
 	void Update();

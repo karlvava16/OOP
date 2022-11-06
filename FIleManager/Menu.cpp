@@ -19,7 +19,7 @@ void Menu::ContextMenu()
 	SetPos(0, 0);
 	cout << "Cut [Ctrl+X]    ";
 	cout << "Copy [Ctrl+C]    ";
-	cout << "Past [Ctrl+V]    ";
+	cout << "Paste [Ctrl+V]    ";
 	cout << "Rename [Ctrl+F2]    ";
 	cout << "Create [Ctrl+Shft+N]    ";
 	cout << "Delete [Del]    ";

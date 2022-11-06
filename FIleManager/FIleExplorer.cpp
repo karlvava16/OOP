@@ -2,6 +2,7 @@
 
 void FileExplorer::MainCycle()
 {
+	setlocale(0, "");
 	win::SetConsoleCP(1251);
 	win::SetConsoleOutputCP(1251);
 
@@ -22,7 +23,7 @@ void FileExplorer::MainCycle()
 		{
 			if (_getch() == VK_RETURN)
 			{
-			Right();
+			Enter();
 			}
 			if (win::GetKeyState(VK_ESCAPE) < 0)																	
 			{																												
@@ -43,7 +44,7 @@ void FileExplorer::MainCycle()
 			}																												
 			else if (win::GetKeyState(VK_LEFT) < 0)
 			{																												
-				Left();																										
+				Back();																										
 			}
 			else if (win::GetKeyState(VK_CONTROL) < 0 && win::GetKeyState(0x50) < 0)
 			{
@@ -71,7 +72,7 @@ void FileExplorer::MainCycle()
 			}
 			else if (win::GetKeyState(VK_CONTROL) < 0 && win::GetKeyState(0x56) < 0)
 			{
-				Past();
+				Paste();
 			}
 			else if (win::GetKeyState(VK_CONTROL) < 0 && win::GetKeyState(VK_F2) < 0)
 			{
@@ -117,7 +118,7 @@ void FileExplorer::Down()
 	}
 }
 
-void FileExplorer::Left()
+void FileExplorer::Back()
 {
 	fs::path temp = DefPath.parent_path();
 	if (DefPath != temp)
@@ -127,7 +128,7 @@ void FileExplorer::Left()
 	}
 }
 
-void FileExplorer::Right()
+void FileExplorer::Enter()
 {
 	if (Check())
 	{
@@ -138,19 +139,23 @@ void FileExplorer::Right()
 			DefPath = (*p).path().string();
 			Check();
 		}
+		win::Sleep(100);
 	}
 }
 
 
 void FileExplorer::Create()
 {
-	fs::path temp = DefPath;
 	try
 	{
-		temp /= Menu::Enter();
-		fs::create_directories(temp);
-		Menu::UpdateMenu(DefPath, length, current);
-		Menu::Message(L"CREATED DIRECTORY");
+		if (Check())
+		{
+			fs::path temp = DefPath;
+			temp /= Menu::Enter();
+			fs::create_directories(temp);
+			Menu::UpdateMenu(DefPath, length, current);
+			Menu::Message(L"CREATED DIRECTORY");
+		}
 	}
 	catch (fs::filesystem_error msg)
 	{
@@ -186,14 +191,63 @@ void FileExplorer::Delete()
 
 void FileExplorer::Cut()
 {
+	try
+	{
+		if (Check())
+		{
+			auto p = fs::directory_iterator(DefPath);
+			advance(p, current);
+			temp = (*p).path();
+			CutCopy = false;
+			Menu::Message(L"CUT");
+		}
+	}
+	catch (fs::filesystem_error msg)
+	{
+		throw(msg);
+	}
 }
 
 void FileExplorer::Copy()
 {
+	try
+	{
+		if (Check())
+		{
+			auto p = fs::directory_iterator(DefPath);
+			advance(p, current);
+			temp = (*p).path();
+			CutCopy = true;
+			Menu::Message(L"COPY");
+		}
+	}
+	catch (fs::filesystem_error msg)
+	{
+		throw(msg);
+	}
 }
 
-void FileExplorer::Past()
+void FileExplorer::Paste()
 {
+	try
+	{
+		if (Check())
+		{
+			copy(temp, DefPath);
+
+			if (!CutCopy)
+			{
+				remove(temp);
+				temp = L"";
+			}
+			Menu::UpdateMenu(DefPath, length, current);
+			Menu::Message(L"PASTE");
+		}
+	}
+	catch (fs::filesystem_error msg)
+	{
+		throw(msg);
+	}
 }
 
 void FileExplorer::Rename()
@@ -213,7 +267,7 @@ void FileExplorer::Rename()
 			else
 			{
 				fs::rename(DefPath / (*p).path().filename(), DefPath / name);
-				Menu::Message(L"HAS BEEN RENAMED");
+				Menu::Message(L"RENAMED");
 				Menu::Directories(DefPath, length, current);
 				Menu::Properties(DefPath, length, current);
 			}
@@ -226,10 +280,6 @@ void FileExplorer::Rename()
 }
 
 
-void FileExplorer::Search()
-{
-}
-
 void FileExplorer::Find()
 {
 }
@@ -239,7 +289,6 @@ void FileExplorer::GoToPath()
 {
 	try
 	{
-		Check();
 		fs::path p = Menu::Enter();
 		if (DefPath == p)
 		{
