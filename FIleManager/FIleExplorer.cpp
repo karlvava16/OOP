@@ -1,20 +1,26 @@
 #include "FileExplorer.h"
 
+
+void ShowConsoleCursor(bool showFlag)
+{
+	win::HANDLE out = win::GetStdHandle((win::DWORD)-11);
+
+	win::CONSOLE_CURSOR_INFO cursorInfo;
+
+	GetConsoleCursorInfo(out, &cursorInfo);
+	cursorInfo.bVisible = showFlag; // set the cursor visibility
+	SetConsoleCursorInfo(out, &cursorInfo);
+
+}
+
 void FileExplorer::MainCycle()
 {
 	setlocale(0, "");
 	win::SetConsoleCP(1251);
 	win::SetConsoleOutputCP(1251);
 
-
-	win::HANDLE out = win::GetStdHandle((win::DWORD) - 1);
-
-	win::CONSOLE_CURSOR_INFO     cursorInfo;
-
-	GetConsoleCursorInfo(out, &cursorInfo);
-	cursorInfo.bVisible = false; // set the cursor visibility
-	SetConsoleCursorInfo(out, &cursorInfo);
-
+	ShowConsoleCursor(false);
+	
 	Menu::UpdateMenu(DefPath, length, current);
 	
 	while (true)
@@ -57,10 +63,6 @@ void FileExplorer::MainCycle()
 			else if (win::GetKeyState(VK_DELETE) < 0)
 			{
 				Delete();
-			}
-			else if (win::GetKeyState(VK_CONTROL) < 0 && win::GetKeyState(VK_SHIFT) < 0 && win::GetKeyState(0x46) < 0)
-			{
-				Find();
 			}
 			else if (win::GetKeyState(VK_CONTROL) < 0 && win::GetKeyState(0x58) < 0)
 			{
@@ -154,7 +156,7 @@ void FileExplorer::Create()
 			temp /= Menu::Enter();
 			fs::create_directories(temp);
 			Menu::UpdateMenu(DefPath, length, current);
-			Menu::Message(L"CREATED DIRECTORY");
+			Menu::Message(L"CREATE DIRECTORY");
 		}
 	}
 	catch (fs::filesystem_error msg)
@@ -176,7 +178,7 @@ void FileExplorer::Delete()
 			current = 0;
 
 			Menu::UpdateMenu(DefPath, length, current);
-			Menu::Message(L"DELETED");
+			Menu::Message(L"DELETE");
 		}
 		else
 		{
@@ -240,7 +242,7 @@ void FileExplorer::Paste()
 				remove(temp);
 				temp = L"";
 			}
-			Menu::UpdateMenu(DefPath, length, current);
+			Check();
 			Menu::Message(L"PASTE");
 		}
 	}
@@ -267,7 +269,7 @@ void FileExplorer::Rename()
 			else
 			{
 				fs::rename(DefPath / (*p).path().filename(), DefPath / name);
-				Menu::Message(L"RENAMED");
+				Menu::Message(L"RENAME");
 				Menu::Directories(DefPath, length, current);
 				Menu::Properties(DefPath, length, current);
 			}
@@ -278,12 +280,6 @@ void FileExplorer::Rename()
 		throw(msg);
 	}
 }
-
-
-void FileExplorer::Find()
-{
-}
-
 
 void FileExplorer::GoToPath()
 {

@@ -59,8 +59,6 @@ public:
 	void Paste();
 	void Rename();
 
-	void Find();
-
 	void Update();
 
 	void GoToPath();

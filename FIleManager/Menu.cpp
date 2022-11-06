@@ -17,13 +17,13 @@ void Menu::SetPos(int a, int b)
 void Menu::ContextMenu()
 {
 	SetPos(0, 0);
+	cout << "Update [Ctrl+R]    ";
 	cout << "Cut [Ctrl+X]    ";
 	cout << "Copy [Ctrl+C]    ";
 	cout << "Paste [Ctrl+V]    ";
 	cout << "Rename [Ctrl+F2]    ";
 	cout << "Create [Ctrl+Shft+N]    ";
 	cout << "Delete [Del]    ";
-	cout << "Find [Ctrl+Shft+F]    ";
 	cout << "Go To Path [Ctrl+P]";
 }
 
@@ -196,11 +196,6 @@ void Menu::Message(const fs::filesystem_error msg)
 	cout << msg.what() << setw(FIRST_PART - strlen(msg.what())) << "";
 	SetPos(0, 5);
 	for (int i = 0; i < FIRST_PART; i++) cout << '-';	
-}
-
-void Menu::Search()
-{
-
 }
 
 wstring Menu::Enter()

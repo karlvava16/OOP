@@ -35,7 +35,6 @@ class Menu
 		static void DiskSpace(const fs::path& path);
 		static void Message(wstring msg);
 		static void Message(const fs::filesystem_error msg);
-		static void Search();
 		static wstring Enter();
 		static void UpdateMenu(const fs::path& path, size_t length, size_t current);
 
