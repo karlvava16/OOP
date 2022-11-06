@@ -1,61 +1,82 @@
 #include "FileExplorer.h"
 
-void FileExplorer::Start()
+void FileExplorer::MainCycle()
 {
-	setlocale(0, "");
 	win::SetConsoleCP(1251);
 	win::SetConsoleOutputCP(1251);
 
-	Menu::UpdateMenu(DefPath, length, current);
 
+	win::HANDLE out = win::GetStdHandle((win::DWORD) - 1);
+
+	win::CONSOLE_CURSOR_INFO     cursorInfo;
+
+	GetConsoleCursorInfo(out, &cursorInfo);
+	cursorInfo.bVisible = false; // set the cursor visibility
+	SetConsoleCursorInfo(out, &cursorInfo);
+
+	Menu::UpdateMenu(DefPath, length, current);
+	
 	while (true)
 	{
 		try
 		{
-			if (win::GetAsyncKeyState(VK_ESCAPE))																			//
-			{																												//
-				system("cls");																								//
-				break;																										//
-			}																												//
-			else if ((win::GetAsyncKeyState(VK_CONTROL) && win::GetAsyncKeyState(0x52)) ||									//
-				((win::GetAsyncKeyState(VK_LWIN) || win::GetAsyncKeyState(VK_RWIN)) && win::GetAsyncKeyState(VK_UP)))		//
-			{																												//
-				Menu::UpdateMenu(DefPath, length, current);																	// ResetMenu [Ctrl+R]
-				win::Sleep(100);																							//
-			}																												//
-			else if ((win::GetAsyncKeyState(VK_CONTROL) && win::GetAsyncKeyState(0x50)))									//
-				GoToPath();																									//
-			else if (win::GetAsyncKeyState(VK_UP))																			// Go To Path [Ctrl+P]
-			{																												//
-				Up();																										//
-			}																												//
-			else if (win::GetAsyncKeyState(VK_DOWN))																		//
-			{																												//
-				Down();																										//
-			}																												//
-			else if (win::GetAsyncKeyState(VK_LEFT))																		//
-			{																												//
-				Left();																										//
-			}																												//
-			else if (win::GetAsyncKeyState(VK_RETURN) || win::GetAsyncKeyState(VK_RIGHT))									//
-				Enter();																									// Press Enter To Continue
-			else if (win::GetAsyncKeyState(VK_DELETE))																		//
-				Delete();																									// Delete [Del]
-			else if (win::GetAsyncKeyState(VK_CONTROL) && win::GetAsyncKeyState(VK_SHIFT) && win::GetAsyncKeyState(0x46))	// 
-				Find();																										// Find [Ctrl+Shft+F]
-			else if (win::GetAsyncKeyState(VK_CONTROL) && win::GetAsyncKeyState(0x46))										//
-				Search();																									// Search [Ctrl+F]
-			else if (win::GetAsyncKeyState(VK_CONTROL) && win::GetAsyncKeyState(0x46))										//
-				Search();																									// Search [Ctrl+F]
-			else if (win::GetAsyncKeyState(VK_CONTROL) && win::GetAsyncKeyState(0x58))										//
-				Cut();																										// Cut [Ctrl+X]
-			else if (win::GetAsyncKeyState(VK_CONTROL) && win::GetAsyncKeyState(0x43))										//
-				Copy();																										// Copy [Ctrl+C] 
-			else if (win::GetAsyncKeyState(VK_CONTROL) && win::GetAsyncKeyState(0x56))										//
-				Past();																										// Past [Ctrl+V]
-			else if (win::GetAsyncKeyState(VK_CONTROL) && win::GetAsyncKeyState(VK_F2))										//
-				Rename();																									// Rename [Ctrl+F2]
-
+			if (_getch() == VK_RETURN)
+			{
+			Right();
+			}
+			if (win::GetKeyState(VK_ESCAPE) < 0)																	
+			{																												
+				system("cls");																								
+				break;																										
+			}																												
+			else if (win::GetKeyState(VK_CONTROL) < 0 && win::GetKeyState(0x52) < 0)
+			{																												
+				Update();
+			}																												
+			else if (win::GetKeyState(VK_UP) < 0)
+			{
+				Up();																										
+			}																												
+			else if (win::GetKeyState(VK_DOWN) < 0)
+			{																												
+				Down();																										
+			}																												
+			else if (win::GetKeyState(VK_LEFT) < 0)
+			{																												
+				Left();																										
+			}
+			else if (win::GetKeyState(VK_CONTROL) < 0 && win::GetKeyState(0x50) < 0)
+			{
+				GoToPath();
+			}
+			else if (win::GetKeyState(VK_CONTROL) < 0 && win::GetKeyState(VK_SHIFT) < 0 && win::GetKeyState(0x4E) < 0)
+			{
+				Create();
+			}
+			else if (win::GetKeyState(VK_DELETE) < 0)
+			{
+				Delete();
+			}
+			else if (win::GetKeyState(VK_CONTROL) < 0 && win::GetKeyState(VK_SHIFT) < 0 && win::GetKeyState(0x46) < 0)
+			{
+				Find();
+			}
+			else if (win::GetKeyState(VK_CONTROL) < 0 && win::GetKeyState(0x58) < 0)
+			{
+				Cut();
+			}
+			else if (win::GetKeyState(VK_CONTROL) < 0 && win::GetKeyState(0x43) < 0)
+			{
+				Copy();
+			}
+			else if (win::GetKeyState(VK_CONTROL) < 0 && win::GetKeyState(0x56) < 0)
+			{
+				Past();
+			}
+			else if (win::GetKeyState(VK_CONTROL) < 0 && win::GetKeyState(VK_F2) < 0)
+			{
+				Rename();
+			}
 		}
 		catch (fs::filesystem_error msg)
 		{
@@ -64,49 +85,36 @@ void FileExplorer::Start()
 	}
 }
 
+
 void FileExplorer::Up()
 {
-	if (current == 0)
-		current = length;
-	current--;
-	Menu::ContextMenu();
-	Menu::Message(L"");
-	Menu::Directories(DefPath, length, current);
-	Menu::Properties(DefPath, length, current);
-	win::Sleep(100);
-	while (win::GetAsyncKeyState(VK_DOWN))
+	if (Check())
 	{
-		current++;
-		if (current >= length)
-			current = 0;
-		Menu::ContextMenu();
+		if (current == 0)
+			current = length;
+		current--;
 		Menu::Message(L"");
 		Menu::Directories(DefPath, length, current);
 		Menu::Properties(DefPath, length, current);
+		Menu::DiskSpace(DefPath);
+		win::Sleep(100);
+
 	}
 }
 
 void FileExplorer::Down()
 {
-	current++;
-	if (current >= length)
-		current = 0;
-	win::Sleep(100);
-	Menu::ContextMenu();
-	Menu::Message(L"");
-	Menu::Directories(DefPath, length, current);
-	Menu::Properties(DefPath, length, current);
-	while (win::GetAsyncKeyState(VK_DOWN))
+	if (Check())
 	{
 		current++;
 		if (current >= length)
 			current = 0;
-		Menu::ContextMenu();
 		Menu::Message(L"");
 		Menu::Directories(DefPath, length, current);
 		Menu::Properties(DefPath, length, current);
+		Menu::DiskSpace(DefPath);
+		win::Sleep(100);
 	}
-	
 }
 
 void FileExplorer::Left()
@@ -115,33 +123,65 @@ void FileExplorer::Left()
 	if (DefPath != temp)
 	{
 		DefPath = temp;
-		length = 0;
-		current = 0;
-		for (auto& i : fs::directory_iterator(DefPath)) length++;
-		Menu::UpdateMenu(DefPath, length, current);
+		Check();
 	}
 }
 
-void FileExplorer::Enter()
+void FileExplorer::Right()
 {
-	auto p = fs::directory_iterator(DefPath);
-	advance(p, current);
-	if ((*p).is_directory())
+	if (Check())
 	{
-		DefPath = (*p).path().string();
-		length = 0;
-		current = 0;
-		for (auto& i : fs::directory_iterator(DefPath)) length++;
-		Menu::UpdateMenu(DefPath, length, current);
+		auto p = fs::directory_iterator(DefPath);
+		advance(p, current);
+		if ((*p).is_directory())
+		{
+			DefPath = (*p).path().string();
+			Check();
+		}
 	}
 }
+
 
 void FileExplorer::Create()
 {
+	fs::path temp = DefPath;
+	try
+	{
+		temp /= Menu::Enter();
+		fs::create_directories(temp);
+		Menu::UpdateMenu(DefPath, length, current);
+		Menu::Message(L"CREATED DIRECTORY");
+	}
+	catch (fs::filesystem_error msg)
+	{
+		throw(msg);
+	}
 }
 
 void FileExplorer::Delete()
 {
+	try
+	{
+		if (length > 0 && Check())
+		{
+			auto p = fs::directory_iterator(DefPath);
+			advance(p, current);
+			remove((*p).path());
+			length--;
+			current = 0;
+
+			Menu::UpdateMenu(DefPath, length, current);
+			Menu::Message(L"DELETED");
+		}
+		else
+		{
+			Menu::Message(L"DIR IS EMPTY");
+		}
+	}
+	catch (fs::filesystem_error msg)
+	{
+		throw(msg);
+	}
 }
 
 void FileExplorer::Cut()
@@ -156,6 +196,36 @@ void FileExplorer::Past()
 {
 }
 
+void FileExplorer::Rename()
+{
+	try
+	{
+		if (Check())
+		{
+			wstring name = Menu::Enter();
+			auto p = fs::directory_iterator(DefPath);
+			advance(p, current);
+			if ((*p).path().filename() == name)
+			{
+				Menu::Message(L"SAME NAME");
+				return;
+			}
+			else
+			{
+				fs::rename(DefPath / (*p).path().filename(), DefPath / name);
+				Menu::Message(L"HAS BEEN RENAMED");
+				Menu::Directories(DefPath, length, current);
+				Menu::Properties(DefPath, length, current);
+			}
+		}
+	}
+	catch (fs::filesystem_error msg)
+	{
+		throw(msg);
+	}
+}
+
+
 void FileExplorer::Search()
 {
 }
@@ -165,35 +235,40 @@ void FileExplorer::Find()
 }
 
 
-
-void FileExplorer::Rename()
+void FileExplorer::GoToPath()
 {
-	wstring name = Menu::Enter();
-	auto p = fs::directory_iterator(DefPath);
-	advance(p, current);
 	try
 	{
-		if ((*p).path().filename() == name)
+		Check();
+		fs::path p = Menu::Enter();
+		if (DefPath == p)
 		{
-			Menu::Message(L"SAME NAME");
-			return;
+			Menu::Message(L"SAME PATH");
+		}
+		else if (fs::is_directory(p))
+		{
+			DefPath = p.string();
+			length = 0;
+			current = 0;
+			for (auto& i : fs::directory_iterator(DefPath)) length++;
+			Menu::UpdateMenu(DefPath, length, current);
 		}
 		else
 		{
-			fs::rename(DefPath / (*p).path().filename(), DefPath / name);
-			Menu::Message(L"HAS BEEN RENAMED");
-			Menu::Directories(DefPath, length, current);
-			Menu::Properties(DefPath, length, current);
+			Menu::Message(L"INACCESSIBLE PATH");
 		}
-		char a = _getch();
 	}
 	catch (fs::filesystem_error msg)
 	{
-		Menu::Message(msg);
+		throw(msg);
 	}
 }
 
-void FileExplorer::GoToPath()
+void FileExplorer::Update()
 {
-
+	if (Check())
+	{
+		Menu::UpdateMenu(DefPath, length, current);
+		win::Sleep(100);
+	}// ResetMenu [Ctrl+R]
 }

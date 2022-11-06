@@ -14,6 +14,20 @@ class FileExplorer
 	size_t current;
 	size_t length;
 
+	bool Check()
+	{
+		size_t len = 0;
+		for (auto& i : fs::directory_iterator(DefPath)) len++;
+		if (len != length)
+		{
+			current = 0;
+			length = len;
+			Menu::UpdateMenu(DefPath, length, current);
+			return false;
+		}
+		return true;
+	}
+
 public:
 	FileExplorer() : DefPath(fs::current_path().root_path()), current(0), length(0)
 	{
@@ -29,25 +43,25 @@ public:
 		}
 	}
 
-	void Start(); // start file explorer
+	void MainCycle(); // start file explorer
 
 
 	void Up();
 	void Down();
 	void Left();
-	void Enter();
+	void Right();
 
 	void Create();
 	void Delete();
 	void Cut();
-
 	void Copy();
 	void Past();
+	void Rename();
 
 	void Search();
 	void Find();
 
-	void Rename();
+	void Update();
 
 	void GoToPath();
 };

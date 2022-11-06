@@ -23,7 +23,6 @@ void Menu::ContextMenu()
 	cout << "Rename [Ctrl+F2]    ";
 	cout << "Create [Ctrl+Shft+N]    ";
 	cout << "Delete [Del]    ";
-	cout << "Search [Ctrl+F]    ";
 	cout << "Find [Ctrl+Shft+F]    ";
 	cout << "Go To Path [Ctrl+P]";
 }
@@ -206,15 +205,16 @@ void Menu::Search()
 
 wstring Menu::Enter()
 {
-	_getch();
+
 	SetPos(0, 4);
 	for (int i = 0; i < FIRST_PART; i++) cout << ' ';
 	SetPos(0, 4);
 
-	wstring temp;
-	cout << "Enter: ";
-	getline(wcin, temp);
 
+	cout << "Enter: ";
+
+	wstring temp;
+	getline(wcin, temp);
 	SetPos(0, 4);
 	return temp;
 }
