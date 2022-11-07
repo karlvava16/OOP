@@ -48,7 +48,7 @@ void FileExplorer::MainCycle()
 			{																												
 				Down();																										
 			}																												
-			else if (win::GetKeyState(VK_LEFT) < 0)
+			else if (win::GetKeyState(VK_BACK) < 0)
 			{																												
 				Back();																										
 			}

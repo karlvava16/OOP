@@ -1,5 +1,6 @@
 #pragma once
 #include "Menu.h"
+#include "Interface.h"
 
 
 
@@ -7,7 +8,7 @@ using namespace std;
 
 namespace fs = std::filesystem;
 
-class FileExplorer
+class FileExplorer : IEnter, IBackspace, IUpDownArrows, ICCP, IDeleteCreate, IRename
 {
 	fs::path DefPath;
 	fs::path temp;
@@ -51,7 +52,7 @@ public:
 	void Down();
 	void Back();
 	void Enter();
-
+ 
 	void Create();
 	void Delete();
 	void Cut();

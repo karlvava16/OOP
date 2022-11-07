@@ -17,14 +17,16 @@ void Menu::SetPos(int a, int b)
 void Menu::ContextMenu()
 {
 	SetPos(0, 0);
-	cout << "Update [Ctrl+R]    ";
 	cout << "Cut [Ctrl+X]    ";
 	cout << "Copy [Ctrl+C]    ";
 	cout << "Paste [Ctrl+V]    ";
 	cout << "Rename [Ctrl+F2]    ";
 	cout << "Create [Ctrl+Shft+N]    ";
 	cout << "Delete [Del]    ";
-	cout << "Go To Path [Ctrl+P]";
+	cout << "Go To Path [Ctrl+P]        ";
+	cout << "Update [Ctrl+R]    ";
+	cout << "Go Back [Backspace]    ";
+	cout << "Go Forward [Enter]";
 }
 
 
